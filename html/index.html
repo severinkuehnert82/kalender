@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalender Übersicht</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+</head>
+<body>
+    <h1>Meine Termine</h1>
+    
+    <p><a href="neuer-termin.html">＋ Neuen Termin anlegen</a></p>
+
+    <ul id="terminListe"></ul>
+
+    <!-- Auch hier wieder: type="module" -->
+    <script type="module">
+        import { db } from './db.js';
+
+        async function ladeTermine() {
+            // Hol alle Termine aus der DB
+            const alleTermine = await db.termine.toArray();
+            
+            const liste = document.getElementById('terminListe');
+            liste.innerHTML = "";
+
+            if (alleTermine.length === 0) {
+                liste.innerHTML = "<li>Noch keine Termine vorhanden.</li>";
+                return;
+            }
+
+            // Jeden Termin in die HTML-Liste einfügen
+            alleTermine.forEach(t => {
+                liste.innerHTML += `<li><strong>${t.datum} ${t.uhrzeit || ''}:</strong> ${t.titel}</li>`;
+            });
+        }
+
+        // Beim Start der Seite ausführen
+        ladeTermine();
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuer Termin</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+</head>
+<body>
+    <h1>Neuen Termin anlegen</h1>
+
+    <input type="text" id="titelInput" placeholder="Titel (z. B. Zahnarzt)">
+    <input type="date" id="datumInput">
+    <input type="time" id="uhrzeitInput">
+    <button id="speichernBtn">Speichern</button>
+
+    <!-- Wichtig: type="module" aktiviert die Modul-Funktionen -->
+    <script type="module">
+        import { db } from './db.js';
+
+        const speichernBtn = document.getElementById('speichernBtn');
+
+        speichernBtn.addEventListener('click', async () => {
+            const titel = document.getElementById('titelInput').value;
+            const datum = document.getElementById('datumInput').value;
+            const uhrzeit = document.getElementById('uhrzeitInput').value;
+
+            if (!titel || !datum) {
+                alert("Bitte mindestens Titel und Datum eingeben!");
+                return;
+            }
+
+            // In Dexie-Datenbank speichern
+            await db.termine.add({
+                titel: titel,
+                datum: datum,
+                uhrzeit: uhrzeit
+            });
+
+            alert("Termin gespeichert!");
+
+            // Eingabefeld zurücksetzen
+            document.getElementById('titelInput').value = '';
+        });
+    </script>
+</body>
+</html>
