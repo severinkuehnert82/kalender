@@ -81,6 +81,7 @@ let busfahrerWarZufall = false;
 let busVorkarte = null;
 let busReihe = [];
 let busIndex = 0;
+let busStatus = 'spielt';
 
 document.addEventListener('DOMContentLoaded', () => {
   loadHeader();
@@ -631,15 +632,18 @@ function ermittleBusfahrer() {
 // RUNDE 5: Das Busfahren (Finale)
 // ==========================================
 function neueBusReihe() {
+  // Nur die Startkarte wird sofort gezogen. Die fünf Karten kommen erst
+  // nach dem jeweiligen Tipp oben vom Stapel.
   busVorkarte = ziehKarte();
-  busReihe = [ziehKarte(), ziehKarte(), ziehKarte(), ziehKarte(), ziehKarte()];
+  busReihe = Array(5).fill(null);
   busIndex = 0;
+  busStatus = 'spielt';
 }
 
 function starteBusfahren() {
   aktuellesDeck = erstelleMehrereDecks(gewaehlteDecks);
   neueBusReihe();
-  renderBusfahrenScreen('Karte 1 von 5: Höher, tiefer oder gleich wie die Startkarte?');
+  renderBusfahrenScreen('Die Startkarte ist aufgedeckt. Wie ist die nächste Karte?');
 }
 
 function renderBusfahrenScreen(hinweisText) {
@@ -649,28 +653,45 @@ function renderBusfahrenScreen(hinweisText) {
 
   const reihenHtml = busReihe
     .map((karte, i) => {
-      const istAufgedeckt = i < busIndex;
-      const istAktiv = i === busIndex;
+      const istAufgedeckt = i < busIndex || (busStatus === 'falsch' && i === busIndex);
+      const istAktiv = i === busIndex && busStatus === 'spielt';
       return `<div class="bus-karte ${istAktiv ? 'bus-karte-aktiv' : ''}">${kartenHtml(istAufgedeckt ? karte : null)}</div>`;
     })
     .join('');
 
   cardWrapper.innerHTML = `
-    <div class="bus-reihe">
-      <div class="bus-karte bus-startkarte">
+    <div class="bus-final">
+      <div class="bus-reference">
         ${kartenHtml(busVorkarte)}
-        <span class="bus-label">Start</span>
+        <span class="bus-label">Startkarte</span>
       </div>
-      ${reihenHtml}
+      <div class="bus-reihe" aria-label="Fünf Karten für die Busfahrt">
+        ${reihenHtml}
+      </div>
     </div>
   `;
 
+  if (busStatus === 'falsch') {
+    controlsArea.innerHTML = `
+      <div class="bus-feedback bus-feedback-falsch" role="alert">
+        <strong>Falsch – 1 Schluck trinken.</strong>
+        <span>Danach geht es wieder bei Karte 1 los.</span>
+      </div>
+      <button class="btn-game btn-start" id="btnBusNeustart">Wieder bei Karte 1 starten</button>
+    `;
+    document.getElementById('btnBusNeustart').addEventListener('click', () => {
+      neueBusReihe();
+      renderBusfahrenScreen('Neue Reihe: Wie ist Karte 1 im Vergleich zur Startkarte?');
+    });
+    return;
+  }
+
   controlsArea.innerHTML = `
-    <div class="fortschritt">Karte ${busIndex + 1} von 5</div>
-    <div class="btn-row-3">
-      <button class="btn-game btn-blau" id="btnBusTiefer">Tiefer ⬇️</button>
-      <button class="btn-game btn-grau" id="btnBusGleich">Gleich 🟰</button>
-      <button class="btn-game btn-gruen" id="btnBusHoeher">Höher ⬆️</button>
+    <div class="bus-fortschritt" aria-live="polite">${busIndex} von 5 richtig</div>
+    <div class="bus-tipps" role="group" aria-label="Tipp auswählen">
+      <button class="btn-game btn-blau" id="btnBusTiefer">↓ Tiefer</button>
+      <button class="btn-game btn-grau" id="btnBusGleich">= Gleich</button>
+      <button class="btn-game btn-gruen" id="btnBusHoeher">↑ Höher</button>
     </div>
   `;
 
@@ -680,8 +701,12 @@ function renderBusfahrenScreen(hinweisText) {
 }
 
 function pruefeBusfahren(tipp) {
+  if (busStatus !== 'spielt' || busIndex >= 5) return;
+
   const referenz = busIndex === 0 ? busVorkarte : busReihe[busIndex - 1];
-  const aktuelleKarte = busReihe[busIndex];
+  const aktuelleKarte = ziehKarte();
+  // Jede gezogene Karte bleibt sichtbar, auch bei einem falschen Tipp.
+  busReihe[busIndex] = aktuelleKarte;
 
   let richtig = false;
   if (tipp === 'gleich') richtig = aktuelleKarte.wert === referenz.wert;
@@ -696,8 +721,8 @@ function pruefeBusfahren(tipp) {
     }
     renderBusfahrenScreen(`Richtig! Weiter mit Karte ${busIndex + 1} von 5.`);
   } else {
-    neueBusReihe();
-    renderBusfahrenScreen('Falsch! 🍻 1 Schluck trinken. Die Reihe wird neu gemischt – zurück zu Karte 1.');
+    busStatus = 'falsch';
+    renderBusfahrenScreen('Die Karte ist aufgedeckt. Nach dem Schluck beginnst du wieder bei Karte 1.');
   }
 }
 

@@ -5,15 +5,18 @@
 }
 
 #header {
-  min-height: 60px; /* An die tatsächliche Höhe deines Headers anpassen */
+  min-height: 0;
   background-color: #0f172a; /* Gleiche Hintergrundfarbe wie dein Header */
   width: 100%;
   display: block;
+  flex: 0 0 auto;
 }
 
 html, body {
-  width: 100vw;
+  width: 100%;
+  min-height: 100%;
   height: 100vh;
+  height: 100dvh;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -27,7 +30,10 @@ html, body {
 
 main {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
 }
 
 input, textarea {

@@ -1,5 +1,5 @@
 // Service Worker: sorgt für Offline-Fähigkeit und schnelles Laden auf dem iPhone.
-const CACHE_VERSION = 'omnia-v2';
+const CACHE_VERSION = 'omnia-v3';
 
 const PRECACHE_URLS = [
   './',

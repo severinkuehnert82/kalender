@@ -2,11 +2,13 @@
     max-width: 560px;
     margin: 0 auto;
     padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+    background-color: #0f172a;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 0.75rem;
 }
 
 .game-header {
@@ -32,9 +34,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0.75rem 0;
+    margin: 0.25rem 0;
     width: 100%;
-    flex: 1;
+    min-height: 0;
 }
 
 .card-wrapper {
@@ -253,7 +255,11 @@
     display: flex;
     flex-direction: column;
     gap: 0.65rem;
-    padding-bottom: 0.5rem;
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    padding: 0.75rem 0 calc(0.5rem + env(safe-area-inset-bottom, 0px));
+    background: linear-gradient(to bottom, rgba(15, 23, 42, 0), #0f172a 22%);
 }
 
 .btn-game {
@@ -500,24 +506,64 @@ button.pyramide-verdeckt:active {
 }
 
 /* Busfahren-Finale */
-.bus-reihe {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
-    flex-wrap: wrap;
+.bus-final {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
 }
 
-.bus-karte {
+.bus-reference {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.3rem;
 }
 
+.bus-reference .game-card-element {
+    width: 88px;
+    height: 128px;
+    padding: 7px;
+}
+
+.bus-reference .card-center-symbol {
+    font-size: 2rem;
+}
+
+.bus-reihe {
+    display: flex;
+    gap: 0.4rem;
+    justify-content: center;
+    flex-wrap: nowrap;
+    width: 100%;
+    max-width: 480px;
+}
+
+.bus-karte {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    min-width: 0;
+}
+
 .bus-karte .game-card-element {
-    width: 66px;
-    height: 96px;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 2 / 3;
+    padding: clamp(3px, 1vw, 6px);
+    border-radius: 8px;
+}
+
+.bus-karte .card-corner {
+    font-size: clamp(0.52rem, 2.6vw, 0.8rem);
+}
+
+.bus-karte .card-center-symbol {
+    font-size: clamp(1.1rem, 5.5vw, 1.75rem);
 }
 
 .bus-karte-aktiv .game-card-element {
@@ -527,7 +573,42 @@ button.pyramide-verdeckt:active {
 
 .bus-label {
     font-size: 0.7rem;
-    color: #64748b;
+    color: #94a3b8;
+}
+
+.bus-fortschritt {
+    color: #cbd5e1;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.bus-tipps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.bus-tipps .btn-game {
+    min-height: 58px;
+    padding: 0.65rem 0.25rem;
+    font-size: clamp(0.82rem, 3.7vw, 1rem);
+}
+
+.bus-feedback {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    color: #fff;
+    text-align: center;
+}
+
+.bus-feedback-falsch {
+    background: #7f1d1d;
+    border: 1px solid #f87171;
 }
 
 /* Kleine iPhone-Bildschirme */
@@ -535,6 +616,6 @@ button.pyramide-verdeckt:active {
     .game-card-element { width: 105px; height: 155px; }
     .card-center-symbol { font-size: 2.1rem; }
     .setup-split { flex-direction: column; }
-    .bus-karte .game-card-element { width: 52px; height: 76px; }
+    .bus-reference .game-card-element { width: 74px; height: 108px; }
     .pyramide-karte, .pyramide-karte .game-card-element { width: 38px; height: 54px; }
 }
