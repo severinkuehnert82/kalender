@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clean Analytics Dashboard</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+  <!-- Navigation Sidebar -->
+  <aside>
+    <div class="brand">MetricsApp</div>
+    <ul class="nav-list">
+      <li class="nav-item active"><a href="#">Dashboard</a></li>
+      <li class="nav-item"><a href="#">Analytics</a></li>
+      <li class="nav-item"><a href="#">Customers</a></li>
+      <li class="nav-item"><a href="#">Settings</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main>
+    <header>
+      <h1>Overview</h1>
+      <div class="user-profile">
+        <span>Alex Johnson</span>
+        <div class="avatar">AJ</div>
+      </div>
+    </header>
+
+    <!-- Key Metrics Grid -->
+    <section class="metrics-grid">
+      <div class="card metric-card">
+        <span class="metric-title">Total Revenue</span>
+        <span class="metric-value">$45,230</span>
+        <span class="metric-change positive">↑ 12.5% from last month</span>
+      </div>
+      <div class="card metric-card">
+        <span class="metric-title">Active Users</span>
+        <span class="metric-value">2,405</span>
+        <span class="metric-change positive">↑ 8.1% from last month</span>
+      </div>
+      <div class="card metric-card">
+        <span class="metric-title">Conversion Rate</span>
+        <span class="metric-value">3.2%</span>
+        <span class="metric-change negative">↓ 0.4% from last month</span>
+      </div>
+    </section>
+
+    <!-- Recent Activity Table -->
+    <section class="table-container">
+      <div class="table-header">
+        <h2>Recent Transactions</h2>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Jane Cooper</td>
+            <td>Oct 24, 2026</td>
+            <td>$240.00</td>
+            <td><span class="badge badge-success">Completed</span></td>
+          </tr>
+          <tr>
+            <td>Cody Fisher</td>
+            <td>Oct 23, 2026</td>
+            <td>$120.50</td>
+            <td><span class="badge badge-pending">Pending</span></td>
+          </tr>
+          <tr>
+            <td>Esther Howard</td>
+            <td>Oct 22, 2026</td>
+            <td>$450.00</td>
+            <td><span class="badge badge-success">Completed</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+</body>
+</html>
