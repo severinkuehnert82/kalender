@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <title>Kalender Übersicht</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/mitspieler.css">
+
+    <script type="module" src="js/mitspieler.js"></script>
+</head>
+<body>
+    <div id="header"></div>
+
+    <main class="mitspieler-container">
+        <section class="card">
+            <h2>Spieler verwalten</h2>
+            <p class="subtitle">Füge Spieler hinzu, um sie für Spiele auszuwählen.</p>
+
+            <form id="addPlayerForm" class="player-input-group">
+                <input type="text" id="playerNameInput" placeholder="Name eingeben..." required autocomplete="off">
+                <button type="submit" class="btn btn-primary">Hinzufügen</button>
+            </form>
+
+            <div class="player-list-header">
+                <h3>Gespeicherte Spieler (<span id="playerCount">0</span>)</h3>
+            </div>
+
+            <ul id="playerList" class="player-list">
+                <!-- Dynamischer Inhalt aus Dexie.js -->
+            </ul>
+        </section>
+    </main>
+</body>
+</html>
