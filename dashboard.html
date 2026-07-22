@@ -10,16 +10,7 @@
 </head>
 <body>
 
-  <!-- Navigation Sidebar -->
-  <aside>
-    <div class="brand">Omnia</div>
-    <ul class="nav-list">
-      <li class="nav-item active"><a href="#">Dashboard</a></li>
-      <li class="nav-item"><a href="anwesenheitsliste.html">Anwensenheit Fußball</a></li>
-      <li class="nav-item"><a href="#">Customers</a></li>
-      <li class="nav-item"><a href="#">Settings</a></li>
-    </ul>
-  </aside>
+  <div id="sidebar"></div>
 
   <!-- Main Content -->
   <main>
@@ -87,6 +78,12 @@
       </table>
     </section>
   </main>
-
+<script>
+    fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('menu-placeholder').innerHTML = data;
+            });
+</script>
 </body>
 </html>
