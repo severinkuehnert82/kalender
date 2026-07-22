@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             headerContainer.innerHTML = data;
 
-            // 1. Aktive Seite im Menü hervorheben
+            // 1. Aktive Seite markieren
             const currentPage = window.location.pathname.split('/').pop() || 'index.html';
             const links = headerContainer.querySelectorAll('a');
             
@@ -22,32 +22,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
+            // 2. Dropdown-Steuerung für Touch & Desktop
             const dropdownItems = headerContainer.querySelectorAll('.nav-item.dropdown');
 
             dropdownItems.forEach(item => {
-                // Wenn man über einen Menüpunkt fährt, sofort ALLE ANDEREN schließen
-                item.addEventListener('mouseenter', () => {
-                    dropdownItems.forEach(otherItem => {
-                        if (otherItem !== item) {
-                            otherItem.classList.remove('is-open');
-                        }
-                    });
-                    item.classList.add('is-open');
-                });
+                const btn = item.querySelector('.dropdown-toggle');
 
-                // Beim Verlassen wieder schließen
-                item.addEventListener('mouseleave', () => {
-                    item.classList.remove('is-open');
+                // Klick/Tap-Steuerung (für Smartphones)
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const isOpen = item.classList.contains('is-open');
+
+                    // Alle anderen schließen
+                    dropdownItems.forEach(other => other.classList.remove('is-open'));
+
+                    // Aktuelles umschalten
+                    if (!isOpen) {
+                        item.classList.add('is-open');
+                    }
                 });
             });
 
-            document.addEventListener('click', (e) => {
-                if (!headerContainer.contains(e.target)) {
-                    dropdownItems.forEach(item => item.classList.remove('is-open'));
-                }
+            // Schließen, wenn irgendwo auf den Bildschirm getippt wird
+            document.addEventListener('click', () => {
+                dropdownItems.forEach(item => item.classList.remove('is-open'));
             });
         })
-        .catch(error => {
-            console.error('Fehler beim Laden des Headers:', error);
-        });
+        .catch(error => console.error('Header-Fehler:', error));
 });

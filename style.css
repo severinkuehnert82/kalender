@@ -4,16 +4,15 @@
   padding: 0;
 }
 
-/* App-Container fixieren */
 html, body {
   width: 100vw;
   height: 100vh;
   margin: 0;
   padding: 0;
-  overflow: hidden;  /* Deaktiviert ungewolltes Scrollen */
-  position: fixed;   /* Verhindert iOS PWA Bounce-Effekt */
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: #f8fafc; /* Helligkeit für den Inhalt */
+  overflow: hidden;
+  position: fixed;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #f8fafc;
   color: #0f172a;
   display: flex;
   flex-direction: column;
@@ -25,55 +24,57 @@ main {
 }
 
 /* ==========================================================================
-   Header Navigation Bar (Schlichtes Anthrazit / Slate)
+   Header mit iOS Safe-Area Unterstützung
    ========================================================================== */
 
 .app-header {
   width: 100%;
-  height: 54px;
-  background-color: #0f172a; /* Slate 900: Sehr dunkles, elegantes Anthrazit */
+  /* Berechnet die Höhe dynamisch inkl. iPhone Statusleiste / Notch */
+  padding-top: env(safe-area-inset-top, 0px);
+  height: calc(54px + env(safe-area-inset-top, 0px));
+  background-color: #0f172a;
   border-bottom: 1px solid #1e293b;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.25rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   flex-shrink: 0;
 }
 
-/* Brand-Bereich (Links) */
+/* Brand & Name */
 .header-brand {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
 }
 
 .user-name {
   color: #f8fafc;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
+  white-space: nowrap; /* Verhindert den zweizeiligen Umbruch */
 }
 
 .brand-badge {
   background-color: #1e293b;
   color: #94a3b8;
   border: 1px solid #334155;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 600;
-  padding: 0.15rem 0.5rem;
-  border-radius: 5px;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
-/* Navigation List (Rechts) */
+/* Navigation Links */
 .header-nav .nav-list {
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.2rem;
 }
 
 .nav-item {
@@ -83,66 +84,61 @@ main {
 .nav-link {
   background: transparent;
   border: none;
-  color: #94a3b8; /* Dezente, unaufdringliche Textfarbe */
+  color: #94a3b8;
   text-decoration: none;
-  padding: 0.45rem 0.75rem;
+  padding: 0.4rem 0.6rem;
   border-radius: 6px;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.3rem;
   cursor: pointer;
-  transition: color 0.15s ease, background-color 0.15s ease;
+  white-space: nowrap;
   font-family: inherit;
+  -webkit-tap-highlight-color: transparent; /* Verhindert grauen Touch-Kasten auf iOS */
 }
 
-/* Subtiler Hover- & Aktiv-Zustand */
 .nav-link:hover,
-.nav-item:hover > .nav-link,
 .nav-item.active > .nav-link,
 .nav-item.is-open > .nav-link {
   color: #ffffff;
-  background-color: #1e293b; /* Minimal dunkleres Grau beim Hover */
+  background-color: #1e293b;
 }
 
 .arrow {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: #64748b;
-  transition: transform 0.2s ease, color 0.15s ease;
 }
 
-.nav-item.dropdown:hover .arrow,
-.nav-item.dropdown.is-open .arrow {
+.nav-item.is-open .arrow {
   transform: rotate(180deg);
   color: #ffffff;
 }
 
-/* ==========================================================================
-   Dropdown-Menü
-   ========================================================================== */
-
+/* Dropdown Menu */
 .dropdown-menu {
   position: absolute;
   top: 100%;
   right: 0;
-  margin-top: 0.35rem;
+  margin-top: 0.4rem;
   background-color: #0f172a;
   border: 1px solid #334155;
   border-radius: 8px;
   list-style: none;
   padding: 0.35rem;
-  min-width: 200px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  min-width: 190px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-4px);
-  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  transition: all 0.15s ease;
   z-index: 1001;
 }
 
-.nav-item.dropdown:hover .dropdown-menu,
-.nav-item.dropdown.is-open .dropdown-menu {
+/* Öffnen per JS-Klasse .is-open oder Hover */
+.nav-item.dropdown.is-open .dropdown-menu,
+.nav-item.dropdown:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -151,15 +147,31 @@ main {
 .dropdown-menu li a {
   color: #cbd5e1;
   text-decoration: none;
-  padding: 0.5rem 0.75rem;
+  padding: 0.6rem 0.75rem; /* Etwas größeres Touch-Ziel für Finger */
   display: block;
   border-radius: 5px;
   font-size: 0.85rem;
-  font-weight: 400;
-  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .dropdown-menu li a:hover {
   background-color: #1e293b;
   color: #ffffff;
+}
+
+/* ==========================================================================
+   Spezielle iPhone-Anpassung (Bildschirme unter 400px Breite)
+   ========================================================================== */
+@media (max-width: 400px) {
+  .brand-badge {
+    display: none; /* Blendet das kleine "OMNIA"-Schildchen auf iPhones aus, um Platz zu sparen */
+  }
+  
+  .user-name {
+    font-size: 0.85rem;
+  }
+  
+  .nav-link {
+    padding: 0.35rem 0.45rem;
+    font-size: 0.8rem;
+  }
 }
