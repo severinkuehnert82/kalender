@@ -24,7 +24,6 @@ async function loadHeader() {
             if (href === currentPage) {
                 link.classList.add('active');
 
-                // Klick abfangen: Kein Neuladen der aktuellen Seite
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const parentDropdown = link.closest('.nav-item.dropdown');
@@ -64,10 +63,10 @@ async function loadHeader() {
     }
 }
 
-// Header SOFORT anstoßen (Lösung 2)
+// Header SOFORT anstoßen
 loadHeader();
 
-// 2. Hauptlogik nach dem DOM-Laden ausführen
+// 2. Hauptlogik
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('addPlayerForm');
     const input = document.getElementById('playerNameInput');
@@ -99,18 +98,46 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    if (form) {
+    if (form && input) {
+        // Sobald der Nutzer wieder tippt, wird der Fehler zurückgesetzt
+        input.addEventListener('input', () => {
+            input.setCustomValidity('');
+        });
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            // Vorherigen Fehler löschen
+            input.setCustomValidity('');
+
             const name = input.value.trim();
 
-            if (!name) return;
+            // Falls das Feld leer ist
+            if (!name) {
+                input.setCustomValidity('Bitte gib einen Namen ein.');
+                input.reportValidity();
+                return;
+            }
 
             try {
+                // Prüfen auf doppelte Namen (ohne Groß-/Kleinschreibung)
+                const doppelte = await db.mitspieler
+                    .filter(s => s.name.toLowerCase() === name.toLowerCase())
+                    .toArray();
+
+                if (doppelte.length > 0) {
+                    // Triggert die native Browser-Sprechblase am Input-Feld
+                    input.setCustomValidity(`Der Spieler "${name}" existiert bereits!`);
+                    input.reportValidity();
+                    return;
+                }
+
+                // Speichern wenn alles okay ist
                 await db.mitspieler.add({ name });
                 input.value = '';
                 input.focus();
                 await ladeSpieler();
+
             } catch (error) {
                 console.error("Fehler beim Speichern:", error);
             }
