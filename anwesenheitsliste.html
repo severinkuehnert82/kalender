@@ -7,25 +7,14 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="stylesheet" href="sidebar.css">
+    <script type="module" src="anwesenheitsliste.js"></script>
 </head>
 <body>
+    <div id="sidebar"></div>
 
-    <!-- 1. Platzhalter für das Menü -->
-    <div id="menu-placeholder"></div>
-
-    <!-- 2. Hauptinhalt der Seite -->
     <main class="content">
         <h1>Anwesenheitsliste</h1>
         <p>Hier kommt die Tabelle oder Liste rein.</p>
     </main>
-
-    <!-- 3. Skript zum Laden der externen sidebar.html -->
-    <script>
-        fetch('sidebar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('menu-placeholder').innerHTML = data;
-            });
-    </script>
 </body>
 </html>
