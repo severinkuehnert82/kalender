@@ -1,5 +1,3 @@
-import { loadComponent} from "./utils";
+import { loadComponent} from "./utils.js";
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadComponent('sidebar', 'sidebar.html');
-})
+loadComponent('sidebar', 'sidebar.html');
