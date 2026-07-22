@@ -1,0 +1,165 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* App-Container fixieren */
+html, body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;  /* Deaktiviert ungewolltes Scrollen */
+  position: fixed;   /* Verhindert iOS PWA Bounce-Effekt */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f8fafc; /* Helligkeit für den Inhalt */
+  color: #0f172a;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* ==========================================================================
+   Header Navigation Bar (Schlichtes Anthrazit / Slate)
+   ========================================================================== */
+
+.app-header {
+  width: 100%;
+  height: 54px;
+  background-color: #0f172a; /* Slate 900: Sehr dunkles, elegantes Anthrazit */
+  border-bottom: 1px solid #1e293b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.25rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  flex-shrink: 0;
+}
+
+/* Brand-Bereich (Links) */
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.user-name {
+  color: #f8fafc;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.brand-badge {
+  background-color: #1e293b;
+  color: #94a3b8;
+  border: 1px solid #334155;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Navigation List (Rechts) */
+.header-nav .nav-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  background: transparent;
+  border: none;
+  color: #94a3b8; /* Dezente, unaufdringliche Textfarbe */
+  text-decoration: none;
+  padding: 0.45rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+  font-family: inherit;
+}
+
+/* Subtiler Hover- & Aktiv-Zustand */
+.nav-link:hover,
+.nav-item:hover > .nav-link,
+.nav-item.active > .nav-link,
+.nav-item.is-open > .nav-link {
+  color: #ffffff;
+  background-color: #1e293b; /* Minimal dunkleres Grau beim Hover */
+}
+
+.arrow {
+  font-size: 0.7rem;
+  color: #64748b;
+  transition: transform 0.2s ease, color 0.15s ease;
+}
+
+.nav-item.dropdown:hover .arrow,
+.nav-item.dropdown.is-open .arrow {
+  transform: rotate(180deg);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Dropdown-Menü
+   ========================================================================== */
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.35rem;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  list-style: none;
+  padding: 0.35rem;
+  min-width: 200px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  z-index: 1001;
+}
+
+.nav-item.dropdown:hover .dropdown-menu,
+.nav-item.dropdown.is-open .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu li a {
+  color: #cbd5e1;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  display: block;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #1e293b;
+  color: #ffffff;
+}
