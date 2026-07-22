@@ -4,6 +4,13 @@
   padding: 0;
 }
 
+#header {
+  min-height: 60px; /* An die tatsächliche Höhe deines Headers anpassen */
+  background-color: #0f172a; /* Gleiche Hintergrundfarbe wie dein Header */
+  width: 100%;
+  display: block;
+}
+
 html, body {
   width: 100vw;
   height: 100vh;

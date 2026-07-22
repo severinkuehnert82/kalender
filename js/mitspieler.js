@@ -1,4 +1,3 @@
-// Richtig: eine Ebene nach oben zur db.js im Hauptverzeichnis
 import { db } from '../db.js';
 
 // 1. Header laden & Dropdowns steuern
@@ -7,7 +6,6 @@ async function loadHeader() {
     if (!headerContainer) return;
 
     try {
-        // Da mitspieler.html im Hauptverzeichnis liegt, laden wir header.html direkt
         const response = await fetch('./header.html');
         
         if (!response.ok) {
@@ -17,7 +15,7 @@ async function loadHeader() {
         const data = await response.text();
         headerContainer.innerHTML = data;
 
-        // Aktive Seite markieren
+        // Aktive Seite markieren & Reload verhindern
         const currentPage = window.location.pathname.split('/').pop() || 'index.html';
         const links = headerContainer.querySelectorAll('a');
 
@@ -25,8 +23,15 @@ async function loadHeader() {
             const href = link.getAttribute('href');
             if (href === currentPage) {
                 link.classList.add('active');
-                const parentItem = link.closest('.nav-item');
-                if (parentItem) parentItem.classList.add('active');
+
+                // Klick abfangen: Kein Neuladen der aktuellen Seite
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const parentDropdown = link.closest('.nav-item.dropdown');
+                    if (parentDropdown) {
+                        parentDropdown.classList.remove('is-open');
+                    }
+                });
             }
         });
 
@@ -59,10 +64,11 @@ async function loadHeader() {
     }
 }
 
-// 2. Hauptlogik
-document.addEventListener('DOMContentLoaded', () => {
-    loadHeader();
+// Header SOFORT anstoßen (Lösung 2)
+loadHeader();
 
+// 2. Hauptlogik nach dem DOM-Laden ausführen
+document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('addPlayerForm');
     const input = document.getElementById('playerNameInput');
     const playerList = document.getElementById('playerList');
