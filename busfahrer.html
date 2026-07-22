@@ -3,30 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anwesenheitsliste</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon.png">
-    <link rel="stylesheet" href="sidebar.css">
-    <script type="module" src="anwesenheitsliste.js"></script>
-
+    <title>Busfahrer - Spiel</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/busfahrer.css">
 </head>
 <body>
-    <div id="sidebar"></div>
-    <div id="busfahrer-module"></div>
+    <!-- Header Container -->
+    <div id="header"></div>
 
-    <main class="content">
-        <h1>Anwesenheitsliste</h1>
-        <p>Hier kommt die Tabelle oder Liste rein.</p>
+    <main class="game-container">
+        <!-- Runden-Info & Anweisung -->
+        <div class="game-header">
+            <h1 id="roundTitle">Busfahrer Vorbereitung</h1>
+            <p id="gameInstruction">Wähle Mitspieler aus und lege die Anzahl der Decks fest.</p>
+        </div>
+
+        <!-- Kartenbereich -->
+        <div class="card-area">
+            <div class="card-wrapper" id="cardWrapper">
+                <!-- Wird per JS befüllt -->
+            </div>
+        </div>
+
+        <!-- Touch-freundlicher Steuerungsbereich -->
+        <div class="controls-area" id="controlsArea">
+            <!-- Wird per JS geladen -->
+        </div>
     </main>
 
-    <script type="module">
-    import { initBusfahrer } from './js/busfahrer/ui.js';
-    
-    // Spiel in den Container laden
-    document.addEventListener('DOMContentLoaded', () => {
-        initBusfahrer('busfahrer-module');
-    });
-</script>
+    <script type="module" src="js/busfahrer.js"></script>
 </body>
 </html>

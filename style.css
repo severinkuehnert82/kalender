@@ -30,6 +30,24 @@ main {
   overflow-y: auto;
 }
 
+input, textarea {
+    cursor: default; /* oder 'pointer', wenn es wie ein Klick-Element wirken soll */
+}
+
+/* Verhindert Textmarkierung und den Text-Cursor im gesamten Spiel */
+.game-container, .game-container * {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: default;
+}
+
+/* Ausnahmen für interaktive Buttons (zeigen den Hand-Zeiger) */
+button, .btn-deck, .btn-game, .btn-manage, a {
+    cursor: pointer;
+}
+
 /* ==========================================================================
    Header mit iOS Safe-Area Unterstützung
    ========================================================================== */
