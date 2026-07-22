@@ -1,11 +1,11 @@
 .game-container {
-    max-width: 500px;
+    max-width: 560px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: calc(100vh - 70px);
+    min-height: 100%;
     justify-content: space-between;
 }
 
@@ -13,16 +13,18 @@
     text-align: center;
     color: #f8fafc;
     margin-bottom: 0.5rem;
+    width: 100%;
 }
 
 .game-header h1 {
-    font-size: 1.4rem;
-    margin-bottom: 0.25rem;
+    font-size: 1.3rem;
+    margin-bottom: 0.3rem;
 }
 
 .game-header p {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #94a3b8;
+    line-height: 1.4;
 }
 
 /* Kartenbereich */
@@ -30,31 +32,45 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 1rem 0;
+    margin: 0.75rem 0;
     width: 100%;
+    flex: 1;
+}
+
+.card-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .game-card-element {
-    width: 150px;
-    height: 220px;
+    width: 130px;
+    height: 190px;
     background-color: #ffffff;
-    border-radius: 14px;
+    border-radius: 12px;
     border: 2px solid #cbd5e1;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 12px;
+    padding: 10px;
     position: relative;
     user-select: none;
     font-family: system-ui, -apple-system, sans-serif;
+    flex-shrink: 0;
+    animation: karte-aufdecken 0.3s ease;
+}
+
+@keyframes karte-aufdecken {
+    from { transform: scale(0.85) rotateY(35deg); opacity: 0.3; }
+    to { transform: scale(1) rotateY(0); opacity: 1; }
 }
 
 .card-corner {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: bold;
     line-height: 1;
 }
@@ -64,18 +80,13 @@
 }
 
 .card-center-symbol {
-    font-size: 3rem;
+    font-size: 2.6rem;
     text-align: center;
     margin: auto 0;
 }
 
-.game-card-element.is-rot {
-    color: #dc2626;
-}
-
-.game-card-element.is-schwarz {
-    color: #1e293b;
-}
+.game-card-element.is-rot { color: #dc2626; }
+.game-card-element.is-schwarz { color: #1e293b; }
 
 .game-card-element.is-hidden {
     background: linear-gradient(135deg, #1e293b 25%, #334155 100%);
@@ -86,7 +97,63 @@
 
 .game-card-element.is-hidden::after {
     content: "🎴";
-    font-size: 3.5rem;
+    font-size: 3rem;
+}
+
+.game-card-element.is-small {
+    width: 42px;
+    height: 60px;
+    padding: 3px;
+    border-radius: 5px;
+    font-size: 0.55rem;
+}
+
+.game-card-element.is-small .card-corner { font-size: 0.6rem; }
+.game-card-element.is-small .card-center-symbol { font-size: 1.1rem; }
+.game-card-element.is-small.is-hidden::after { font-size: 1.3rem; }
+
+/* Mehrere Karten nebeneinander (Runde 2/3) */
+.karten-reihe {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.karten-reihe-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.karten-reihe-titel {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+/* Ergebnis-Anzeige */
+.ergebnis {
+    font-size: 1.15rem;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.ergebnis-richtig { color: #4ade80; }
+.ergebnis-falsch { color: #ef4444; }
+
+.ergebnis-hinweis { font-size: 1rem; color: #f8fafc; }
+.ergebnis-trinken { font-size: 1.15rem; font-weight: bold; text-transform: uppercase; color: #ef4444; }
+
+.fortschritt {
+    font-size: 0.8rem;
+    color: #64748b;
+    text-align: center;
+    margin-bottom: 0.25rem;
 }
 
 /* Links-Rechts-Aufteilung für den Startbildschirm */
@@ -110,25 +177,43 @@
 
 .setup-box h3 {
     color: #f8fafc;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     margin-bottom: 0.5rem;
     text-align: center;
 }
 
-.player-preview-list {
+.player-select-list {
     list-style: none;
     padding: 0;
     margin: 0 0 0.8rem 0;
-    max-height: 90px;
+    max-height: 150px;
     overflow-y: auto;
-    color: #cbd5e1;
-    font-size: 0.85rem;
-    text-align: center;
+    -webkit-overflow-scrolling: touch;
 }
 
-.player-preview-list li {
-    padding: 2px 0;
+.player-select-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.3rem;
+    color: #f8fafc;
+    font-size: 0.9rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+}
+
+.player-select-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #10b981;
+    flex-shrink: 0;
+}
+
+.empty-hint {
+    color: #64748b;
+    font-size: 0.85rem;
+    text-align: center;
+    font-style: italic;
 }
 
 .deck-buttons {
@@ -146,6 +231,7 @@
     background-color: #334155;
     color: white;
     cursor: pointer;
+    touch-action: manipulation;
     transition: all 0.2s;
 }
 
@@ -154,19 +240,26 @@
     background-color: #0369a1;
 }
 
+.form-error {
+    color: #f87171;
+    font-size: 0.85rem;
+    text-align: center;
+    margin: -0.25rem 0 0.5rem;
+}
+
 /* Touch-Steuerung unten */
 .controls-area {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    padding-bottom: 1rem;
+    gap: 0.65rem;
+    padding-bottom: 0.5rem;
 }
 
 .btn-game {
     width: 100%;
-    padding: 1rem;
-    font-size: 1.1rem;
+    padding: 0.95rem;
+    font-size: 1.05rem;
     font-weight: 600;
     border: none;
     border-radius: 12px;
@@ -174,22 +267,32 @@
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.btn-rot {
-    background-color: #ef4444;
     color: white;
 }
 
-.btn-schwarz {
-    background-color: #334155;
-    color: white;
+.btn-game:active {
+    transform: scale(0.97);
 }
 
-.btn-start {
-    background-color: #10b981;
-    color: white;
+.btn-row-3 {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
 }
+
+.btn-row-3 .btn-game {
+    flex: 1;
+    padding: 0.85rem 0.4rem;
+    font-size: 0.9rem;
+}
+
+.btn-rot { background-color: #ef4444; }
+.btn-schwarz { background-color: #334155; }
+.btn-blau { background-color: #3b82f6; }
+.btn-grau { background-color: #64748b; }
+.btn-gruen { background-color: #10b981; }
+.btn-lila { background-color: #8b5cf6; }
+.btn-start { background-color: #10b981; }
 
 .btn-manage {
     background-color: #475569;
@@ -201,4 +304,237 @@
     font-size: 0.85rem;
     font-weight: 500;
     display: block;
+}
+
+/* Pyramide */
+.pyramide-layout {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1rem;
+    width: 100%;
+}
+
+.hand-uebersicht {
+    background: #0f172a;
+    padding: 0.75rem;
+    border-radius: 12px;
+    border: 1px solid #1e293b;
+    max-height: 240px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.hand-uebersicht h4,
+.pyramide-box h4 {
+    color: #cbd5e1;
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.hand-tabelle {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.hand-tabelle th {
+    padding: 4px 6px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #94a3b8;
+    text-align: left;
+    border-bottom: 2px solid #334155;
+}
+
+.hand-tabelle td {
+    padding: 6px;
+    border-bottom: 1px solid #1e293b;
+    vertical-align: middle;
+}
+
+.hand-spielername {
+    font-weight: 600;
+    color: #f8fafc;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.hand-karten-zeile {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    align-items: center;
+    min-height: 40px;
+}
+
+.keine-karten-hinweis {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-style: italic;
+}
+
+.pyramide-box {
+    background: #0f172a;
+    padding: 0.75rem;
+    border-radius: 12px;
+    border: 1px solid #1e293b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pyramide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.pyramide-reihe {
+    display: flex;
+    gap: 0.4rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.pyramide-karte {
+    width: 46px;
+    height: 64px;
+}
+
+.pyramide-karte .game-card-element {
+    width: 46px;
+    height: 64px;
+}
+
+button.pyramide-verdeckt {
+    background: linear-gradient(135deg, #1e293b 25%, #334155 100%);
+    border: 2px dashed #64748b;
+    border-radius: 6px;
+    color: #94a3b8;
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    padding: 0;
+}
+
+button.pyramide-verdeckt:active {
+    background: linear-gradient(135deg, #334155 25%, #475569 100%);
+}
+
+.pyramide-schlucke {
+    font-size: 0.7rem;
+    color: #64748b;
+    margin-left: 0.3rem;
+    white-space: nowrap;
+}
+
+.pyramide-match {
+    margin-top: 8px;
+    background: #1e293b;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+}
+
+.pyramide-match-titel {
+    color: #4ade80;
+    font-weight: bold;
+    margin-bottom: 2px;
+    font-size: 0.85rem;
+}
+
+.pyramide-match ul {
+    margin: 0;
+    padding-left: 18px;
+    color: #f8fafc;
+    font-size: 0.85rem;
+}
+
+.pyramide-kein-match {
+    margin-top: 6px;
+    color: #94a3b8;
+    font-style: italic;
+    font-size: 0.85rem;
+}
+
+.pyramide-aufgedeckt {
+    font-size: 1rem;
+    color: #38bdf8;
+    margin-bottom: 2px;
+}
+
+/* Verlierer-Bildschirm */
+.busfahrer-reveal {
+    text-align: center;
+    color: #f8fafc;
+    padding: 1.5rem 0;
+}
+
+.busfahrer-emoji {
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.busfahrer-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.busfahrer-untertitel {
+    font-size: 1rem;
+    color: #94a3b8;
+    margin-top: 0.2rem;
+}
+
+.busfahrer-los-hinweis {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 0.5rem;
+}
+
+/* Busfahren-Finale */
+.bus-reihe {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.bus-karte {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.bus-karte .game-card-element {
+    width: 66px;
+    height: 96px;
+}
+
+.bus-karte-aktiv .game-card-element {
+    outline: 3px solid #38bdf8;
+    outline-offset: 2px;
+}
+
+.bus-label {
+    font-size: 0.7rem;
+    color: #64748b;
+}
+
+/* Kleine iPhone-Bildschirme */
+@media (max-width: 380px) {
+    .game-card-element { width: 105px; height: 155px; }
+    .card-center-symbol { font-size: 2.1rem; }
+    .setup-split { flex-direction: column; }
+    .bus-karte .game-card-element { width: 52px; height: 76px; }
+    .pyramide-karte, .pyramide-karte .game-card-element { width: 38px; height: 54px; }
 }

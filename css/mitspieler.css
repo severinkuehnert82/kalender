@@ -59,6 +59,16 @@
   background-color: #1e293b;
 }
 
+.player-input-group input.input-error {
+  border-color: #ef4444;
+}
+
+.form-error {
+  color: #f87171;
+  font-size: 0.8rem;
+  margin: -1rem 0 1rem;
+}
+
 /* Buttons */
 .btn {
   border: none;
@@ -148,4 +158,46 @@
   text-align: center;
   padding: 1.25rem 0;
   font-style: italic;
+}
+
+/* Einstellungen-Seite */
+.mitspieler-container .card + .card {
+  margin-top: 1rem;
+}
+
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #1e293b;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+}
+
+.settings-row:last-child {
+  border-bottom: none;
+}
+
+.settings-danger .subtitle {
+  margin-bottom: 1rem;
+}
+
+.btn-delete-all {
+  width: 100%;
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.btn-delete-all:active {
+  background: rgba(239, 68, 68, 0.22);
+}
+
+.reset-status {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #4ade80;
+  text-align: center;
 }

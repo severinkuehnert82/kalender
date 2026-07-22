@@ -2,20 +2,28 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Busfahrer - Spiel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Omnia">
+    <meta name="theme-color" content="#0f172a">
+
+    <title>Busfahrer – Omnia</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" href="favicon-32.png">
+
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/busfahrer.css">
 </head>
 <body>
-    <!-- Header Container -->
     <div id="header"></div>
 
     <main class="game-container">
         <!-- Runden-Info & Anweisung -->
         <div class="game-header">
-            <h1 id="roundTitle">Busfahrer Vorbereitung</h1>
-            <p id="gameInstruction">Wähle Mitspieler aus und lege die Anzahl der Decks fest.</p>
+            <h1 id="roundTitle">Busfahrer</h1>
+            <p id="gameInstruction">Lade Spieler…</p>
         </div>
 
         <!-- Kartenbereich -->
@@ -32,5 +40,6 @@
     </main>
 
     <script type="module" src="js/busfahrer.js"></script>
+    <script type="module" src="js/sw-register.js"></script>
 </body>
 </html>

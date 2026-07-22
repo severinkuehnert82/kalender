@@ -1,5 +1,5 @@
-import { loadComponent } from "./utils";
+import { loadHeader } from './js/header.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  loadComponent('sidebar', 'sidebar.html');
+  loadHeader();
 });

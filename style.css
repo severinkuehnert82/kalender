@@ -200,3 +200,86 @@ button, .btn-deck, .btn-game, .btn-manage, a {
     font-size: 0.8rem;
   }
 }
+
+/* ==========================================================================
+   Fokus-Sichtbarkeit (Tastatur/Assistive Technologien), ohne Touch zu stören
+   ========================================================================== */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Startseite
+   ========================================================================== */
+.home-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+.home-welcome {
+  color: #f8fafc;
+  margin-bottom: 1.5rem;
+}
+
+.home-welcome h1 {
+  font-size: 1.4rem;
+  margin-bottom: 0.3rem;
+}
+
+.home-welcome p {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.home-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background-color: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 1rem;
+  text-decoration: none;
+  color: #f8fafc;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.home-card:active {
+  transform: scale(0.98);
+  background-color: #1e293b;
+}
+
+.home-card-icon {
+  font-size: 1.6rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1e293b;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.home-card-text strong {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 0.1rem;
+}
+
+.home-card-text span {
+  display: block;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}

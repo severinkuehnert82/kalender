@@ -1,81 +1,29 @@
 import { db } from '../db.js';
+import { loadHeader } from './header.js';
 
-// 1. Header laden & Dropdowns steuern
-async function loadHeader() {
-    const headerContainer = document.getElementById('header');
-    if (!headerContainer) return;
-
-    try {
-        const response = await fetch('./header.html');
-        
-        if (!response.ok) {
-            throw new Error(`HTTP-Fehler! Status: ${response.status}`);
-        }
-
-        const data = await response.text();
-        headerContainer.innerHTML = data;
-
-        // Aktive Seite markieren & Reload verhindern
-        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-        const links = headerContainer.querySelectorAll('a');
-
-        links.forEach(link => {
-            const href = link.getAttribute('href');
-            if (href === currentPage) {
-                link.classList.add('active');
-
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const parentDropdown = link.closest('.nav-item.dropdown');
-                    if (parentDropdown) {
-                        parentDropdown.classList.remove('is-open');
-                    }
-                });
-            }
-        });
-
-        // Dropdown-Steuerung
-        const dropdownItems = headerContainer.querySelectorAll('.nav-item.dropdown');
-
-        dropdownItems.forEach(item => {
-            const btn = item.querySelector('.dropdown-toggle');
-            if (!btn) return;
-
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-
-                const isOpen = item.classList.contains('is-open');
-                dropdownItems.forEach(other => other.classList.remove('is-open'));
-
-                if (!isOpen) {
-                    item.classList.add('is-open');
-                }
-            });
-        });
-
-        document.addEventListener('click', () => {
-            dropdownItems.forEach(item => item.classList.remove('is-open'));
-        });
-
-    } catch (error) {
-        console.error('Header-Fehler:', error);
-    }
-}
-
-// Header SOFORT anstoßen
 loadHeader();
 
-// 2. Hauptlogik
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('addPlayerForm');
     const input = document.getElementById('playerNameInput');
     const playerList = document.getElementById('playerList');
     const playerCount = document.getElementById('playerCount');
+    const formError = document.getElementById('formError');
+
+    function showError(message) {
+        formError.textContent = message;
+        formError.hidden = false;
+        input.classList.add('input-error');
+    }
+
+    function clearError() {
+        formError.hidden = true;
+        input.classList.remove('input-error');
+    }
 
     async function ladeSpieler() {
         try {
-            const spielerListe = await db.mitspieler.toArray();
+            const spielerListe = await db.mitspieler.orderBy('name').toArray();
             playerList.innerHTML = '';
             playerCount.textContent = spielerListe.length;
 
@@ -84,81 +32,73 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            spielerListe.forEach(s => {
+            spielerListe.forEach((s) => {
                 const li = document.createElement('li');
                 li.className = 'player-item';
                 li.innerHTML = `
                     <span class="player-name">${escapeHtml(s.name)}</span>
-                    <button class="btn-delete" data-id="${s.id}" aria-label="Löschen">✕</button>
+                    <button class="btn-delete" data-id="${s.id}" aria-label="${escapeHtml(s.name)} löschen">✕</button>
                 `;
                 playerList.appendChild(li);
             });
         } catch (error) {
-            console.error("Fehler beim Laden der Spieler:", error);
+            console.error('Fehler beim Laden der Spieler:', error);
         }
     }
 
     if (form && input) {
-        // Sobald der Nutzer wieder tippt, wird der Fehler zurückgesetzt
-        input.addEventListener('input', () => {
-            input.setCustomValidity('');
-        });
+        input.addEventListener('input', clearError);
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-
-            // Vorherigen Fehler löschen
-            input.setCustomValidity('');
+            clearError();
 
             const name = input.value.trim();
-
-            // Falls das Feld leer ist
             if (!name) {
-                input.setCustomValidity('Bitte gib einen Namen ein.');
-                input.reportValidity();
+                showError('Bitte gib einen Namen ein.');
+                return;
+            }
+            if (name.length > 24) {
+                showError('Der Name darf höchstens 24 Zeichen lang sein.');
                 return;
             }
 
             try {
-                // Prüfen auf doppelte Namen (ohne Groß-/Kleinschreibung)
                 const doppelte = await db.mitspieler
-                    .filter(s => s.name.toLowerCase() === name.toLowerCase())
+                    .filter((s) => s.name.toLowerCase() === name.toLowerCase())
                     .toArray();
 
                 if (doppelte.length > 0) {
-                    // Triggert die native Browser-Sprechblase am Input-Feld
-                    input.setCustomValidity(`Der Spieler "${name}" existiert bereits!`);
-                    input.reportValidity();
+                    showError(`„${name}“ ist bereits gespeichert.`);
                     return;
                 }
 
-                // Speichern wenn alles okay ist
                 await db.mitspieler.add({ name });
                 input.value = '';
                 input.focus();
                 await ladeSpieler();
-
             } catch (error) {
-                console.error("Fehler beim Speichern:", error);
+                console.error('Fehler beim Speichern:', error);
+                showError('Speichern fehlgeschlagen. Bitte versuch es erneut.');
             }
         });
     }
 
     if (playerList) {
         playerList.addEventListener('click', async (e) => {
-            if (e.target.classList.contains('btn-delete')) {
-                const id = Number(e.target.getAttribute('data-id'));
-                if (id) {
-                    await db.mitspieler.delete(id);
-                    await ladeSpieler();
-                }
+            const btn = e.target.closest('.btn-delete');
+            if (!btn) return;
+            const id = Number(btn.getAttribute('data-id'));
+            if (id) {
+                await db.mitspieler.delete(id);
+                await ladeSpieler();
             }
         });
     }
 
     function escapeHtml(text) {
-        return text.replace(/[&<>"']/g, m => ({
-            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+        return text.replace(/[&<>"']/g, (m) => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;',
         }[m]));
     }
 

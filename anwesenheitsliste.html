@@ -2,19 +2,30 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anwesenheitsliste</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Omnia">
+    <meta name="theme-color" content="#0f172a">
+
+    <title>Anwesenheitsliste – Omnia</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon.png">
-    <link rel="stylesheet" href="sidebar.css">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" href="favicon-32.png">
+    <link rel="stylesheet" href="style.css">
     <script type="module" src="anwesenheitsliste.js"></script>
+    <script type="module" src="js/sw-register.js"></script>
 </head>
 <body>
-    <div id="sidebar"></div>
+    <div id="header"></div>
 
-    <main class="content">
-        <h1>Anwesenheitsliste</h1>
-        <p>Hier kommt die Tabelle oder Liste rein.</p>
+    <main>
+        <div class="home-container">
+            <div class="home-welcome">
+                <h1>Anwesenheitsliste</h1>
+                <p>Hier kommt die Tabelle oder Liste rein.</p>
+            </div>
+        </div>
     </main>
 </body>
 </html>

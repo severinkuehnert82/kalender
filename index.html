@@ -5,16 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Omnia">
+    <meta name="theme-color" content="#0f172a">
 
-    <title>Kalender Übersicht</title>
+    <title>Omnia</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" href="favicon-32.png">
+    <link rel="stylesheet" href="style.css">
     <script type="module" src="js/index.js"></script>
-
-    <link rel="stylesheet" href="style.css"></link>
-
+    <script type="module" src="js/sw-register.js"></script>
 </head>
 <body>
     <div id="header"></div>
+
+    <main>
+        <div class="home-container">
+            <div class="home-welcome">
+                <h1>Willkommen zurück 👋</h1>
+                <p>Was möchtest du öffnen?</p>
+            </div>
+
+            <div class="home-grid">
+                <a class="home-card" href="busfahrer.html">
+                    <span class="home-card-icon">🚌</span>
+                    <span class="home-card-text">
+                        <strong>Busfahrer</strong>
+                        <span>Kartenspiel starten</span>
+                    </span>
+                </a>
+                <a class="home-card" href="anwesenheitsliste.html">
+                    <span class="home-card-icon">⚽</span>
+                    <span class="home-card-text">
+                        <strong>Anwesenheitsliste</strong>
+                        <span>Fußballtraining</span>
+                    </span>
+                </a>
+                <a class="home-card" href="mitspieler.html">
+                    <span class="home-card-icon">👥</span>
+                    <span class="home-card-text">
+                        <strong>Spieler verwalten</strong>
+                        <span>Namen hinzufügen oder entfernen</span>
+                    </span>
+                </a>
+                <a class="home-card" href="einstellungen.html">
+                    <span class="home-card-icon">⚙️</span>
+                    <span class="home-card-text">
+                        <strong>Einstellungen</strong>
+                        <span>App-Infos & Daten zurücksetzen</span>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

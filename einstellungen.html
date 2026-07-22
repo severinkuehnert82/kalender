@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-title" content="Omnia">
     <meta name="theme-color" content="#0f172a">
 
-    <title>Spieler verwalten – Omnia</title>
+    <title>Einstellungen – Omnia</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="icon" href="favicon-32.png">
@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/mitspieler.css">
 
-    <script type="module" src="js/mitspieler.js"></script>
+    <script type="module" src="js/einstellungen.js"></script>
     <script type="module" src="js/sw-register.js"></script>
 </head>
 <body>
@@ -24,22 +24,24 @@
 
     <main class="mitspieler-container">
         <section class="card">
-            <h2>Spieler verwalten</h2>
-            <p class="subtitle">Füge Spieler hinzu, um sie später für Spiele auszuwählen.</p>
+            <h2>Einstellungen</h2>
+            <p class="subtitle">App-Informationen und Datenverwaltung.</p>
 
-            <form id="addPlayerForm" class="player-input-group" novalidate>
-                <input type="text" id="playerNameInput" placeholder="Name eingeben..." autocomplete="off" maxlength="24">
-                <button type="submit" class="btn btn-primary">Hinzufügen</button>
-            </form>
-            <p id="formError" class="form-error" hidden></p>
-
-            <div class="player-list-header">
-                <h3>Gespeicherte Spieler (<span id="playerCount">0</span>)</h3>
+            <div class="settings-row">
+                <span>App</span>
+                <span>Omnia</span>
             </div>
+            <div class="settings-row">
+                <span>Gespeicherte Spieler</span>
+                <span id="spielerAnzahl">…</span>
+            </div>
+        </section>
 
-            <ul id="playerList" class="player-list">
-                <!-- Dynamischer Inhalt aus Dexie.js -->
-            </ul>
+        <section class="card settings-danger">
+            <h2>Daten zurücksetzen</h2>
+            <p class="subtitle">Löscht alle gespeicherten Spieler unwiderruflich. Ein laufendes Spiel ist davon nicht betroffen.</p>
+            <button id="btnReset" class="btn btn-delete-all">Alle Spieler löschen</button>
+            <p id="resetStatus" class="reset-status" hidden></p>
         </section>
     </main>
 </body>
