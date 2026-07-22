@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anwesenheitsliste</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="stylesheet" href="sidebar.css">
+    <script type="module" src="anwesenheitsliste.js"></script>
+
+    <link rel="stylesheet" href="css/busfahrer.css">
+</head>
+<body>
+    <div id="sidebar"></div>
+    <div id="busfahrer-module"></div>
+
+    <main class="content">
+        <h1>Anwesenheitsliste</h1>
+        <p>Hier kommt die Tabelle oder Liste rein.</p>
+    </main>
+
+    <script type="module">
+    import { initBusfahrer } from './js/busfahrer/ui.js';
+    
+    // Spiel in den Container laden
+    document.addEventListener('DOMContentLoaded', () => {
+        initBusfahrer('busfahrer-module');
+    });
+</script>
+</body>
+</html>

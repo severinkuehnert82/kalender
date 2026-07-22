@@ -1,0 +1,108 @@
+/* css/busfahrer.css */
+
+.bf-container {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+    background-color: #f8fafc;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.bf-header h1 {
+    text-align: center;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+}
+
+.bf-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.bf-text-center { text-align: center; }
+.bf-mt { margin-top: 1rem; }
+
+/* Buttons & Inputs */
+.bf-btn {
+    display: inline-block;
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: opacity 0.2s;
+}
+.bf-btn:active { opacity: 0.8; }
+.bf-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.bf-btn-primary { background: #2563eb; color: #fff; }
+.bf-btn-success { background: #16a34a; color: #fff; width: 100%; }
+.bf-btn-danger { background: #dc2626; color: #fff; }
+.bf-btn-dark { background: #1e293b; color: #fff; }
+
+.bf-input-group { margin-bottom: 1rem; }
+.bf-input-group label { display: block; margin-bottom: 0.5rem; font-weight: 500;}
+input[type="number"], input[type="text"] {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* Player List */
+.bf-player-add { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+.bf-player-list { list-style: none; padding: 0; margin: 0; }
+.bf-player-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    background: #f1f5f9;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+}
+.bf-btn-remove {
+    background: #ef4444; color: white; border: none; border-radius: 50%;
+    width: 28px; height: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+
+/* Playing Cards */
+.bf-hand, .bf-actions { display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0; }
+
+.bf-playing-card, .bf-card-back {
+    width: 60px;
+    height: 90px;
+    border: 2px solid;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+}
+.bf-card-suit { font-size: 1.8rem; }
+.bf-card-back {
+    background: repeating-linear-gradient(45deg, #1e293b, #1e293b 10px, #334155 10px, #334155 20px);
+    border-color: #1e293b;
+    cursor: pointer;
+}
+
+/* Pyramid */
+.bf-pyramid { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+.bf-pyramid-row { display: flex; gap: 0.5rem; justify-content: center; }
+
+/* Busfahrer */
+.bf-bus-row { display: flex; gap: 0.5rem; justify-content: center; overflow-x: auto; padding: 1rem 0; }
+.bf-active-card { transform: translateY(-10px); transition: transform 0.3s; }
